@@ -158,6 +158,7 @@
 
 // run();
 const express = require("express");
+const checkCodecamp = require("./middlewares/checkCodecamp");
 const app = express();
 
 app.use(express.json());
@@ -166,63 +167,89 @@ app.use(express.json());
 //   res.json({ title: "My first web app", message: "Our app API" });
 // });
 
-// app.get("/posts", (req, res) => {
+// app.get("/todos", (req, res) => {
 //   res.json({ message: "Get Posts" });
 // });
+
+const todoRouter = require("./routes/todo-routes");
+
+app.use("/todos", todoRouter);
 
 // app.get("/redirect", (req, res) => {
 //   res.redirect("https://google.com");
 // });
 
-// app.post("/posts", (req, res) => {
+// app.post("/todos", (req, res) => {
 //   res.json({ message: "Post Posts" });
 // });
 
-// app.put("/posts", (req, res) => {
+// app.put("/todos", (req, res) => {
 //   res.json({ message: "Put Posts" });
 // });
 
-app.get("/sum/:a/:b", (req, res) => {
-  const { a, b } = req.params;
+// app.get("/sum/:a/:b", (req, res) => {
+//   const { a, b } = req.params;
 
-  res.json({ a, b });
-});
+//   res.json({ a, b });
+// });
 
-app.get("/products", (req, res) => {
-  const { order, page, limit } = req.query;
+// app.get("/products", (req, res) => {
+//   const { order, page, limit } = req.query;
 
-  res.json({ order, page, limit });
-});
+//   res.json({ order, page, limit });
+// });
 
 // app.use(express.json())
 
-app.post("/products", (req, res) => {
-  const { order, page, limit } = req.body;
+// app.post("/products", (req, res) => {
+//   const { order, page, limit } = req.body;
 
-  res.json({ order, page, limit });
-});
+//   res.json({ order, page, limit });
+// });
 
-app.post("/products/:id", (req, res) => {
+// app.post("/products/:id", (req, res) => {
+//   const { id } = req.params;
+
+//   res.json({ id });
+// });
+
+// app.get("/users/:id/bookings/:bId", (req, res) => {
+//   const { id, bId } = req.params;
+
+//   res.json({ id, bId });
+// });
+
+// app.patch("/post/:postId", (req, res) => {
+//   const { postId } = req.params;
+
+//   res.json({ postId });
+// });
+
+// app.get("/auth/:userId", (req, res) => {
+//   const { userId } = req.params;
+//   res.json({ userId });
+// });
+
+// app.get("/product", (req, res) => {
+//   const { order, page, limits } = req.query;
+
+//   res.json({ order, page, limits });
+// });
+
+// app.post("/product", (req, res) => {
+//   const { name, price, description } = req.body;
+
+//   res.json({ name, price, description });
+// });
+const cors = require("cors");
+app.use(checkCodecamp);
+
+app.put("/product/:id", (req, res) => {
   const { id } = req.params;
+  const { name, price, description } = req.body;
+  console.log(req.user);
 
-  res.json({ id });
-});
-
-app.get("/users/:id/bookings/:bId", (req, res) => {
-  const { id, bId } = req.params;
-
-  res.json({ id, bId });
-});
-
-app.patch("/post/:postId", (req, res) => {
-  const { postId } = req.params;
-
-  res.json({ postId });
-});
-
-app.get("/auth/:userId", (req, res) => {
-  const { userId } = req.params;
-  res.json({ userId });
+  res.json({ id, name, price, description });
 });
 
 app.listen(8000, () => console.log("Server is running on port 8000"));
